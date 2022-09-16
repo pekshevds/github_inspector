@@ -18,7 +18,7 @@ def check_connection_with_github() -> bool:
     testing connection to github ()
     """
     result = requests.get(url='https://api.github.com/user', headers=get_headers())
-    return result.status_code >= 399
+    return result.status_code <= 399
 
 
 def get_commit_info(username: str, repo_name: str) -> dict:
@@ -50,7 +50,7 @@ def get_total_avg_errors(repos: list) -> int:
     returns the average number of errors 
     """
     if len(repos):
-        return len([1 for repo in repos if repo['has_issues']])/len(repos)
+        return len([repo for repo in repos if repo['has_issues']])/len(repos)
     return 0
 
 
@@ -113,6 +113,9 @@ def get_projects_number(repos: list) -> int:
 
 
 def get_repos_info(username: str) -> dict:
+    """
+    collects info about user projects on github
+    """
 
     result = requests.get(url=f"https://api.github.com/users/{username}/repos", headers=get_headers())
     if result.status_code <= 399:
@@ -135,16 +138,23 @@ def get_repos_info(username: str) -> dict:
 
 
 def get_repos_info_json(username: str) -> dict:
+    """
+    returns content in json format
+    """
     return get_repos_info(username)
 
 
 def get_repos_info_html(username: str) -> dict:
+    """
+    returns content in html format
+    """
     repos_info = get_repos_info(username)
     return render_template('repos_info.html', repos_info=repos_info)
 
 
 def inspect(username: str, format:str='html') -> str:
     """
+    main view
     """
     if format == 'html':
         return get_repos_info_html(username)
