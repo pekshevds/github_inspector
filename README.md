@@ -15,7 +15,7 @@
 
 ## Что нужно для запуска:
 
- 1. В каталоге flaskr создать файл config,py
- 2. В фале config.py определить константу TOKEN = '<>' (получить его можно https://github.com/settings/tokens)
+ 1. Для запуска задайте значение перменной среды GIT_HUB_TOKEN = '<>' (получить его можно https://github.com/settings/tokens)
+ 2. Для получения статистик по языку отличного от python, задайте значение переменной среды LANGUAGE_OF_GIT_HUB_REPO = '<>' (go, java, javascript)
  3. Для запука проекта нужно запустить main.py, предварительно установив дополнительные модули (requirements.txt)
  4. Для получения информации в адресной строке браузера введите http://127.0.0.1:5000/inspect?username=<username>&format=html, не зубудьте указать username
