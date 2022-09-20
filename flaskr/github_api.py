@@ -5,8 +5,8 @@ from flask import render_template
 from collections import namedtuple
 
 
-GIT_HUB = "https://api.github.com"
-TOKEN = os.environ.get('GIT_HUB_TOKEN', '')
+GITHUB_URL = "https://api.github.com"
+TOKEN_FOR_ACCESS_TO_GITHUB = os.environ.get('GIT_HUB_TOKEN', '')
 LANGUAGE_OF_REPO = os.environ.get('LANGUAGE_OF_GIT_HUB_REPO', 'Python')
 
 
@@ -15,19 +15,19 @@ def get_headers_for_connect_to_guthub() -> dict:
     returns headers for autorization on github.com
     """
     return {
-        'Authorization': f"Bearer {TOKEN}"
+        'Authorization': f"Bearer {TOKEN_FOR_ACCESS_TO_GITHUB}"
     }
 
 
 def check_connection_to_github() -> bool:
     """testing connection to github ()"""
-    result = requests.get(url=f"{GIT_HUB}/user", headers=get_headers_for_connect_to_guthub())
+    result = requests.get(url=f"{GITHUB_URL}/user", headers=get_headers_for_connect_to_guthub())
     return result.ok
 
 
 def get_commit_info(username: str, repo_name: str) -> dict:
     """returns commits list"""
-    result = requests.get(url=f"{GIT_HUB}/repos/{username}/{repo_name}/commits", headers=get_headers_for_connect_to_guthub())
+    result = requests.get(url=f"{GITHUB_URL}/repos/{username}/{repo_name}/commits", headers=get_headers_for_connect_to_guthub())
     if result.ok:
         return result.json()
     return []
@@ -96,7 +96,7 @@ def get_projects_number(repos: list) -> int:
 def get_repos_info(username: str) -> dict:
     """collects info about user projects on github"""
     
-    result = requests.get(url=f"{GIT_HUB}/users/{username}/repos", headers=get_headers_for_connect_to_guthub())
+    result = requests.get(url=f"{GITHUB_URL}/users/{username}/repos", headers=get_headers_for_connect_to_guthub())
     if not result.ok:
         return {}
 
